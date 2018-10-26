@@ -14,7 +14,7 @@ feature 'When a user visits a vending machine show page' do
     owner = Owner.create(name: "Sam's Snacks")
     dons  = owner.machines.create(location: "Don's Mixed Drinks")
     snack1 = dons.snacks.create(name: "snack1", price: 1.50)
-    snack2 = dons.snacks.create(name: "snack1", price: 1.30)
+    snack2 = dons.snacks.create(name: "snack2", price: 1.30)
 
     visit machine_path(dons)
 
@@ -27,14 +27,12 @@ feature 'When a user visits a vending machine show page' do
   scenario 'they see the average price of snacks in the machine' do
     owner = Owner.create(name: "Sam's Snacks")
     dons  = owner.machines.create(location: "Don's Mixed Drinks")
-    snack1 = dons.snacks.create(name: "snack1", price: 1.50)
-    snack2 = dons.snacks.create(name: "snack1", price: 1.30)
+    snack1 = dons.snacks.create(name: "snack1", price: 1.00)
+    snack2 = dons.snacks.create(name: "snack2", price: 2.00)
+    snack3 = dons.snacks.create(name: "snack3", price: 3.00)
 
     visit machine_path(dons)
 
-    expect(page).to have_content(snack1.name)
-    expect(page).to have_content(snack2.name)
-    expect(page).to have_content(snack1.price)
-    expect(page).to have_content(snack2.price)
+    expect(page).to have_content("Average Snack Price: #{dons.average_snack_price}")
   end
 end
